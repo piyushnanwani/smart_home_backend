@@ -8,7 +8,7 @@ module.exports = (app) => {
   app.get('/users', users.findAll);
 
   // Retrieve a single User with userId
-  app.get('/users/:userId', users.findOne);
+  app.get('/users/:userId', users.findUserWithUserId);
 
   // Update a User with userId
   app.put('/users/:userId', users.update);

@@ -43,27 +43,52 @@ exports.findAll = (req, res) => {
   });
 };
 
-// Find a single user with a userId
-exports.findOne = (req, res) => {
-  User.findById(req.params.userId)
+// // Find a single user with a Id (column of MongoDB)
+// exports.findOne = (req, res) => {
+//   User.findById(req.params.userId)
+//   .then(user => {
+//       if(!user) {
+//           return res.status(404).send({
+//               message: "User not found with id " + req.params.userId
+//           });            
+//       }
+//       res.send(user);
+//   }).catch(err => {
+//       if(err.kind === 'ObjectId') {
+//           return res.status(404).send({
+//               message: "User not found with id " + req.params.userId
+//           });                
+//       }
+//       return res.status(500).send({
+//           message: "Error retrieving user with id " + req.params.userId
+//       });
+//   });
+// };
+
+// Find user with given  userId 
+exports.findUserWithUserId = (req, res) => {
+  User.findOne({userId: req.params.userId})
+  // User.findById(req.params.userId)
   .then(user => {
       if(!user) {
           return res.status(404).send({
-              message: "User not found with id " + req.params.userId
+              message: "User not found with userId " + req.params.userId
           });            
       }
       res.send(user);
   }).catch(err => {
       if(err.kind === 'ObjectId') {
           return res.status(404).send({
-              message: "User not found with id " + req.params.userId
+              message: "User not found with userId " + req.params.userId
           });                
       }
       return res.status(500).send({
-          message: "Error retrieving user with id " + req.params.userId
+          message: "Error retrieving user with userId " + req.params.userId
       });
   });
 };
+
+// Incorrect , since we to update with userId and not Id
 
 // Update a user identified by the userId in the request
 exports.update = (req, res) => {
