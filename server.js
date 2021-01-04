@@ -13,6 +13,7 @@ app.use(bodyParser.json())
 // Configuring the database
 const dbConfig = require('./config/database.config.js');
 const mongoose = require('mongoose');
+const connection = "mongodb+srv://new_user31:ejVOgxJ7XUNoT4v2@smart-home-app.rrysi.mongodb.net/smart-home?retryWrites=true&w=majority";
 
 // fix for: depreciated warning :
 // DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` 
@@ -22,7 +23,8 @@ mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-mongoose.connect(dbConfig.url, {
+// mongoose.connect(dbConfig.url, {
+  mongoose.connect(connection, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
