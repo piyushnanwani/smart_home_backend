@@ -93,14 +93,14 @@ exports.findUserWithUserId = (req, res) => {
 // Update a user identified by the userId in the request
 exports.update = (req, res) => {
     // Validate Request
-    if(!req.body.content) {
+    if(!req.body) {
       return res.status(400).send({
           message: "User content can not be empty"
       });
   }
 
   // Find User and update it with the request body
-  User.findByIdAndUpdate(req.params.userId, {
+  User.findOneAndUpdate({userId: req.params.userId}, {
     email: req.body.email,
     // userId: req.body.userId,
     firstName: req.body.firstName,
@@ -129,7 +129,7 @@ exports.update = (req, res) => {
 
 // Delete a user with the specified userId in the request
 exports.delete = (req, res) => {
-  User.findByIdAndRemove(req.params.userId)
+  User.findOneAndRemove({userId: req.params.userId})
   .then(user => {
       if(!user) {
           return res.status(404).send({

@@ -68,7 +68,7 @@ exports.findOne = (req, res) => {
   });
 };
 // Find a single device with a userId
-exports.findOneUserId = (req, res) => {
+exports.findDeviceWithUserId = (req, res) => {
   console.log(req.params);
   Device.findOne({userId: req.params.userId})
   .then(device => {
@@ -93,16 +93,16 @@ exports.findOneUserId = (req, res) => {
 // Update a device identified by the deviceId in the request
 exports.update = (req, res) => {
     // Validate Request
-    if(!req.body.content) {
+    if(!req.body) {
       return res.status(400).send({
           message: "Device content can not be empty"
       });
   }
 
   // Find Device and update it with the request body
-  Device.findByIdAndUpdate(req.params.deviceId, {
-    userId: req.body.userId,
-    brokerUrl: req.body.brokerUrl,
+  Device.findOneAndUpdate({ userId: req.params.userId }, {
+    // userId: req.body.userId,
+    brokerUrl: req.body.brokerUrl  ,
     brokerUserName: req.body.brokerUserName,
     brokerPassword: req.body.brokerPassword,
     subscribedTopic1: req.body.subscribedTopic1,
@@ -113,40 +113,40 @@ exports.update = (req, res) => {
   .then(device => {
       if(!device) {
           return res.status(404).send({
-              message: "Device not found with id " + req.params.deviceId
+              message: "Device not found with userId " + req.params.userId
           });
       }
       res.send(device);
   }).catch(err => {
       if(err.kind === 'ObjectId') {
           return res.status(404).send({
-              message: "Device not found with id " + req.params.deviceId
+              message: "Device not found with userId " + req.params.userId
           });                
       }
       return res.status(500).send({
-          message: "Error updating device with id " + req.params.deviceId
+          message: "Error updating device with userId " + req.params.userId
       });
   });
 };
 
-// Delete a device with the specified deviceId in the request
+// Delete a device with the specified userId associated with that device in the request
 exports.delete = (req, res) => {
-  Device.findByIdAndRemove(req.params.deviceId)
+  Device.findOneAndRemove({ userId: req.params.userId })
   .then(device => {
       if(!device) {
           return res.status(404).send({
-              message: "Device not found with id " + req.params.deviceId
+              message: "Device not found with userId " + req.params.userId
           });
       }
       res.send({message: "Device deleted successfully!"});
   }).catch(err => {
       if(err.kind === 'ObjectId' || err.name === 'NotFound') {
           return res.status(404).send({
-              message: "Device not found with id " + req.params.deviceId
+              message: "Device not found with userId " + req.params.userId
           });                
       }
       return res.status(500).send({
-          message: "Could not delete device with id " + req.params.deviceId
+          message: "Could not delete device with userId " + req.params.userId
       });
   });
 };

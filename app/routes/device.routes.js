@@ -11,11 +11,11 @@ module.exports = (app) => {
   // app.get('/devices/:deviceId', devices.findOne);
   
   // Retrieve a single Device with userId -> This will help in teling if device is registered or not
-  app.get('/devices/:userId', devices.findOneUserId);
+  app.get('/devices/:userId', devices.findDeviceWithUserId);
   
   // Update a device with deviceId
-  app.put('/devices/:deviceId', devices.update);
+  app.put('/devices/:userId', devices.update);
 
   // Delete a Ddevice with deviceId
-  app.delete('/devices/:deviceId', devices.delete);
+  app.delete('/devices/:userId', devices.delete);
 }
