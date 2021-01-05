@@ -1,4 +1,5 @@
 const User = require('../models/user.model.js');
+const userService = require('../services/user.service');
 
 // Create and Save a new User
 exports.create = (req, res) => {

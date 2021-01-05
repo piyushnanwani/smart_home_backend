@@ -1,5 +1,10 @@
+require('rootpath')();
+require('dotenv').config({ debug: process.env.DEBUG })
+
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require('_helpers/jwt');
+const errorHandler = require('_helpers/error-handler');
 
 // create express app
 const app = express();
@@ -10,10 +15,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
 
+// use JWT auth to secure the api
+app.use(jwt());
+
+// global error handler
+app.use(errorHandler);
+
 // Configuring the database
-const dbConfig = require('./config/database.config.js');
+// const connectionLocal = process.env.DB_LOCAL_HOST;
+const connectionCloud = process.env.DB_CLOUD_HOST;
 const mongoose = require('mongoose');
-const connection = "mongodb+srv://new_user31:ejVOgxJ7XUNoT4v2@smart-home-app.rrysi.mongodb.net/smart-home?retryWrites=true&w=majority";
 
 // fix for: depreciated warning :
 // DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` 
@@ -23,8 +34,8 @@ mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
-// mongoose.connect(dbConfig.url, {
-  mongoose.connect(connection, {
+// mongoose.connect(connectionLocal, {
+  mongoose.connect(connectionCloud, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -44,5 +55,5 @@ require('./app/routes/device.routes.js')(app);
 
 // listen for requests
 app.listen(process.env.PORT || 3000, () => {
-    console.log("Server is listening on port 3000");
+    console.log(`Server is listening on port ${process.env.PORT || 3000}`);
 });
