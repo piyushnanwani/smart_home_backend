@@ -1,6 +1,6 @@
 Smart Home Backend
 
-- This project is the backend part of our smart home app i.e made in React Native
+- This project is the backend part of our [smart home app i.e made in React Native](https://github.com/piyushnanwani/ultra-legendary-fortnight)
 - It contains code for REST API connected to mongodb using mongoose client
 
 - Following requests are allowed by this API (In VSCode use REST Client extension to test the following- or POSTMAN (better) )
