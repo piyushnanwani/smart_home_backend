@@ -29,3 +29,7 @@ content-type: application/json
 }
 
 DELETE http://localhost:3000/users/user1
+
+NOTE: Sometimes MongoDB has some issues on running on Ubuntu. 
+1. First competely uninstall it. `sudo apt remove mongo*` 
+2. To reinstall [refer official docs](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/) 
